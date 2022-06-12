@@ -7,6 +7,17 @@ import logging
 import numpy as np
 
 class Dataset(torch.utils.data.Dataset):
+    def __init__(self, X,Y):
+        self.X = X
+        self.Y = Y
+
+    def __getitem__(self, index):
+        return self.X[index], self.Y[index]
+
+    def __len__(self):
+        return len(self.Y)
+
+class MakeBoW(torch.utils.data.Dataset):
     def __init__(self, data: pd.DataFrame, vocab_size: int, vocab:List = None):
         texts = list(data['text'].str.split(" "))
         sources = list(data['source'])
@@ -60,18 +71,17 @@ class Split():
         )
 
         logger.info("TRAINING DATA:")
-        self.train_dataset = Dataset(train, vocab_size)
+        self.train_dataset = MakeBoW(train, vocab_size)
         self.save_data(self.train_dataset, "train")
         
         logger.info("TEST DATA:")
-        self.test_dataset = Dataset(test, vocab_size, self.train_dataset.vocab)
+        self.test_dataset = MakeBoW(test, vocab_size, self.train_dataset.vocab)
         self.save_data(self.test_dataset, "test")
 
     def save_data(self, dataset,filename):
         torch.save(dataset.bow_vectors, f'data/X_{filename}.pt')
         np.savetxt(X = dataset.labels,fname= f'data/Y_{filename}.txt',fmt='% 4d')
         logger.info("Saved the data")
-
 
 
 if __name__ == "__main__":
