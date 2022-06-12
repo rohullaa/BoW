@@ -4,6 +4,7 @@ from collections import Counter
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import logging
+import numpy as np
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, data: pd.DataFrame, vocab_size: int, vocab:List = None):
@@ -60,9 +61,16 @@ class Split():
 
         logger.info("TRAINING DATA:")
         self.train_dataset = Dataset(train, vocab_size)
-
+        self.save_data(self.train_dataset, "train")
+        
         logger.info("TEST DATA:")
         self.test_dataset = Dataset(test, vocab_size, self.train_dataset.vocab)
+        self.save_data(self.test_dataset, "test")
+
+    def save_data(self, dataset,filename):
+        torch.save(dataset.bow_vectors, f'data/X_{filename}.pt')
+        np.savetxt(X = dataset.labels,fname= f'data/Y_{filename}.txt',fmt='% 4d')
+        logger.info("Saved the data")
 
 
 
@@ -70,14 +78,12 @@ if __name__ == "__main__":
     logging.basicConfig(format="%(asctime)s : %(levelname)s : %(message)s", level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     split = Split(vocab_size=2064)
-    
-    train_dataset = split.train_dataset
-    test_dataset = split.test_dataset   
 
+    X_train = torch.load("data/X_train.pt")
+    Y_train = torch.load("data/X_test.pt")
 
-
-
+    Y_train = np.loadtxt(fname = "data/Y_train.txt")
+    Y_test = np.loadtxt(fname = "data/Y_test.txt")
 
 
