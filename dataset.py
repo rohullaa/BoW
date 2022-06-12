@@ -17,7 +17,7 @@ class Dataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.Y)
 
-class MakeBoW(torch.utils.data.Dataset):
+class MakeBoW_Dataset(torch.utils.data.Dataset):
     def __init__(self, data: pd.DataFrame, vocab_size: int, vocab:List = None):
         texts = list(data['text'].str.split(" "))
         sources = list(data['source'])
@@ -71,11 +71,11 @@ class Split():
         )
 
         logger.info("TRAINING DATA:")
-        self.train_dataset = MakeBoW(train, vocab_size)
+        self.train_dataset = MakeBoW_Dataset(train, vocab_size)
         self.save_data(self.train_dataset, "train")
         
         logger.info("TEST DATA:")
-        self.test_dataset = MakeBoW(test, vocab_size, self.train_dataset.vocab)
+        self.test_dataset = MakeBoW_Dataset(test, vocab_size, self.train_dataset.vocab)
         self.save_data(self.test_dataset, "test")
 
     def save_data(self, dataset,filename):
