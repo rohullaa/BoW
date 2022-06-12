@@ -71,7 +71,7 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    split = Split(vocab_size=100)
+    split = Split(vocab_size=2064)
     
     train_dataset = split.train_dataset
     test_dataset = split.test_dataset   
