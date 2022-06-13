@@ -5,7 +5,7 @@ This repo constains a simple bag-of-words document classifier. The bag-of-words 
 ## Run the code
 1. Produce the BOW representations
 ```
-python3 dataset.py
+python3 dataset.py --vocab_size VOCAB_SIZE
 ```
 
 2. Run the model

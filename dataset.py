@@ -5,6 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import logging
 import numpy as np
+from argparse import ArgumentParser
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, X,Y):
@@ -88,7 +89,11 @@ if __name__ == "__main__":
     logging.basicConfig(format="%(asctime)s : %(levelname)s : %(message)s", level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-    split = Split(vocab_size=2064)
+    parser = ArgumentParser()
+    parser.add_argument("--vocab_size", action="store", type=int, default=2064)
+    args = parser.parse_args()
+
+    split = Split(vocab_size=args.vocab_size)
 
 
 
