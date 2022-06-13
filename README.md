@@ -10,8 +10,15 @@ python3 dataset.py
 
 2. Run the model
 ```
-python3 main.py
+python3 main.py --input_size INPUT_SIZE
+                --hidden_dim HIDDEN_DIM
+                --n_hidden_layers N_HIDDEN_LAYERS
+                --batch_size BATCH_SIZE
+                --lr LR
+                --epochs EPOCHS
+                --gamma GAMMA
 ```
+
 
 
 ## Requirements
